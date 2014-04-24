@@ -2,6 +2,7 @@ package edu.cmu.lti.f13.hw4.hw4_139323.casconsumers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.uima.cas.CAS;
@@ -24,19 +25,17 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 
 	/** query and text relevant values **/
 	public ArrayList<Integer> relList;
-
 		
 	public void initialize() throws ResourceInitializationException {
 
 		qIdList = new ArrayList<Integer>();
-
 		relList = new ArrayList<Integer>();
-
 	}
 
 	/**
-	 * TODO :: 1. construct the global word dictionary 2. keep the word
-	 * frequency for each sentence
+	 * TODO: 
+	 * 		1. construct the global word dictionary 
+	 * 		2. keep the word frequency for each sentence
 	 */
 	@Override
 	public void processCas(CAS aCas) throws ResourceProcessException {
@@ -67,8 +66,10 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 	}
 
 	/**
-	 * TODO 1. Compute Cosine Similarity and rank the retrieved sentences 2.
-	 * Compute the MRR metric
+	 * TODO:
+	 * 		1. Compute Cosine Similarity (OK)
+	 * 		2. rank the retrieved sentences
+	 * 		3. Compute the MRR metric
 	 */
 	@Override
 	public void collectionProcessComplete(ProcessTrace arg0)
@@ -96,11 +97,42 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 	private double computeCosineSimilarity(Map<String, Integer> queryVector,
 			Map<String, Integer> docVector) {
 		double cosine_similarity=0.0;
-
-		// TODO :: compute cosine similarity between two sentences
+		double dotProduct = computeDotProduct(queryVector, docVector);
+		double queryMag = getMagnitude(queryVector);
+		double docMag = getMagnitude(docVector);
 		
+		cosine_similarity =  dotProduct/ (queryMag * docMag);
 
 		return cosine_similarity;
+	}
+	
+	private double computeDotProduct(Map<String, Integer> queryVector,
+			Map<String, Integer> docVector) {
+		double dotProduct = 0.0;
+		Iterator queryIter = queryVector.entrySet().iterator();
+		while(queryIter.hasNext()) {
+			Map.Entry queryEntry = (Map.Entry)queryIter.next();
+			if( docVector.containsKey(queryEntry.getKey()) ) {
+				dotProduct += (Integer)queryEntry.getValue() * docVector.get(queryEntry.getKey()).doubleValue();
+			}
+		}
+		
+		return dotProduct;
+	}
+	
+	/*
+	 * This is calculated in L2
+	 */
+	private double getMagnitude(Map<String, Integer> vector) {
+		double magnitude = 0.0;
+		Iterator queryIter = vector.entrySet().iterator();
+		while(queryIter.hasNext()) {
+			Map.Entry queryEntry = (Map.Entry)queryIter.next();
+			magnitude += (Integer)queryEntry.getValue()*(Integer)queryEntry.getValue();
+		}
+		magnitude = Math.sqrt(magnitude);
+		
+		return magnitude;
 	}
 
 	/**

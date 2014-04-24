@@ -63,5 +63,9 @@ extends JCasAnnotator_ImplBase  {
 		docInfo.add(sResTxt.toString());
 		return docInfo;
 	}
+	
+	private void printDocument(Document doc) {
+		System.out.println("QID: "+doc.getQueryID()+" REL: "+doc.getRelevanceValue()+"  "+doc.getText());
+	}
 
 }

@@ -27,5 +27,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/jVinci.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-adapter-soap.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-adapter-vinci.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-core.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-cpe.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-document-annotation.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-examples.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uimaj-as-activemq.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uimaj-as-camel.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uimaj-as-core.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uimaj-as-jms.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uimaj-bootstrap.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/uima-tools.jar"/>
+	<classpathentry kind="lib" path="/usr/local/apache-uima-as/lib/xmlbeans.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

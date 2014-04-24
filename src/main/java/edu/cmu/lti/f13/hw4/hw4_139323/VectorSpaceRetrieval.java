@@ -37,32 +37,35 @@ import org.apache.uima.util.XMLInputSource;
 
 public class VectorSpaceRetrieval {
 	
-	public static void main(String [] args) 
-			throws Exception {
+	public static void main(String [] args) throws Exception {
 			
 		String sLine;
 		long startTime=System.currentTimeMillis();
 		
+		//Load AAE descriptor file
 		URL descUrl = VectorSpaceRetrieval.class.getResource("/descriptors/retrievalsystem/VectorSpaceRetrieval.xml");
-	   if (descUrl == null) {
+	    if (descUrl == null) {
 	      throw new IllegalArgumentException("Error opening VectorSpaceRetrieval.xml");
-	   }
+	    }
 		// create AnalysisEngine		
 		XMLInputSource input = new XMLInputSource(descUrl);
 		AnalysisEngineDescription desc = UIMAFramework.getXMLParser().parseAnalysisEngineDescription(input);
 		AnalysisEngine anAnalysisEngine = UIMAFramework.produceAnalysisEngine(desc);
 		CAS aCas = anAnalysisEngine.newCAS();
 
-	  URL docUrl = VectorSpaceRetrieval.class.getResource("/data/documents.txt");
-    if (docUrl == null) {
-       throw new IllegalArgumentException("Error opening data/documents.txt");
-    }
+		//Load input document
+		URL docUrl = VectorSpaceRetrieval.class.getResource("/data/documents.txt");
+	    if (docUrl == null) {
+	       throw new IllegalArgumentException("Error opening data/documents.txt");
+	    }
+	    //Feed AAE line by line
 		BufferedReader br = new BufferedReader(new InputStreamReader(docUrl.openStream()));
 		while ((sLine = br.readLine()) != null)   {
 			aCas.setDocumentText(sLine);
 			anAnalysisEngine.process(aCas);
 			aCas.reset();
 		}
+		//Clean up
 		br.close();
 		br=null;
 		anAnalysisEngine.collectionProcessComplete();
@@ -71,8 +74,6 @@ public class VectorSpaceRetrieval {
 		
 		double totalTime=(endTime-startTime)/1000.0;
 		System.out.println("Total time taken: "+totalTime);
-		
 
-	}
-
+	} //end main()
 }
