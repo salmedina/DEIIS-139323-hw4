@@ -32,6 +32,7 @@ public class DocumentVectorAnnotator extends JCasAnnotator_ImplBase {
 		}
 
 	}
+
 	/**
 	 * 
 	 * @param jcas
@@ -41,33 +42,35 @@ public class DocumentVectorAnnotator extends JCasAnnotator_ImplBase {
 	private void createTermFreqVector(JCas jcas, Document doc) {
 
 		String docText = doc.getText();
-		
-		//Tokenize the text
-		String[]	words = docText.split(" ");
-		//Convert to lower case 
-		for(int idx=0; idx<words.length; ++idx) {
+
+		//Remove punctuation marks
+		docText = docText.replaceFirst("[.,;:\\?!]", "");
+		// Tokenize the text
+		String[] words = docText.split(" ");
+		// Convert to lower case
+		for (int idx = 0; idx < words.length; ++idx) {
 			words[idx] = words[idx].toLowerCase();
 		}
-		//Eliminate repeated through the use of a set
+		// Eliminate repeated through the use of a set
 		Set<String> wordSet = new HashSet<String>(Arrays.asList(words));
 		Iterator setIter = wordSet.iterator();
-		//Create the token list
+		// Create the token list
 		List<Token> tokens = new ArrayList<Token>();
-		while(setIter.hasNext()) {
-			//Get the frequency of each token in the set
-			String tokenText = (String)setIter.next();
+		while (setIter.hasNext()) {
+			// Get the frequency of each token in the set
+			String tokenText = (String) setIter.next();
 			int tokenFreq = 0;
-			for(String word : words) {
-				tokenFreq += tokenText.equals(word)? 1: 0;
+			for (String word : words) {
+				tokenFreq += tokenText.equals(word) ? 1 : 0;
 			}
-			//Add the token data into the index and the tokenlist
+			// Add the token data into the index and the tokenlist
 			Token newToken = new Token(jcas);
 			newToken.setText(tokenText);
 			newToken.setFrequency(tokenFreq);
 			newToken.addToIndexes();
 			tokens.add(newToken);
 		}
-		//Set tokenlist to the document
+		// Set tokenlist to the document
 		doc.setTokenList(FSCollectionFactory.createFSList(jcas, tokens));
 	}
 

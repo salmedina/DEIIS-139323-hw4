@@ -250,7 +250,6 @@ public class RetrievalEvaluator extends CasConsumer_ImplBase {
 			output += "  " + curAnswer.Text + "\n"; 
 		}
 		
-		
 		System.out.println(output);
 	}
 	
